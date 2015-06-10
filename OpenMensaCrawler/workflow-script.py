@@ -1,44 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>bundleid</key>
-	<string></string>
-	<key>category</key>
-	<string>Tools</string>
-	<key>connections</key>
-	<dict/>
-	<key>createdby</key>
-	<string></string>
-	<key>description</key>
-	<string></string>
-	<key>disabled</key>
-	<false/>
-	<key>name</key>
-	<string>Food</string>
-	<key>objects</key>
-	<array>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>100</integer>
-				<key>keyword</key>
-				<string>food</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Please wait...</string>
-				<key>script</key>
-				<string>import PyAl
+import PyAl
 import urllib2
 import json
 import datetime
@@ -109,33 +69,4 @@ if __name__ == "__main__":
   parseInputParam()
   wf = Workflow()
   sys.exit(wf.run(main))
-  </string>
-				<key>title</key>
-				<string>food</string>
-				<key>type</key>
-				<integer>3</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>2ED91B1A-8E42-4A0E-BEB8-8A6CF2037A27</string>
-			<key>version</key>
-			<integer>0</integer>
-		</dict>
-	</array>
-	<key>readme</key>
-	<string></string>
-	<key>uidata</key>
-	<dict>
-		<key>2ED91B1A-8E42-4A0E-BEB8-8A6CF2037A27</key>
-		<dict>
-			<key>ypos</key>
-			<real>360</real>
-		</dict>
-	</dict>
-	<key>webaddress</key>
-	<string></string>
-</dict>
-</plist>
+  
