@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string></string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict/>
+	<key>createdby</key>
+	<string></string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Food</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>100</integer>
+				<key>keyword</key>
+				<string>food</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Please wait...</string>
+				<key>script</key>
+				<string>import PyAl
+import urllib2
+import json
+import datetime
+import time
+import sys
+from workflow import Workflow, web
+
+DATE = ""
+BURGERMODE = False
+
+def parseInputParam():
+	input = "{query}"
+	offset = 0
+	if input == "": 
+		offset = 0
+	elif input == "morgen":
+		offset = 1
+	elif input == "burger":
+		offset = (4 - datetime.date.today().weekday())%6
+		globals()["BURGERMODE"] = True
+	globals()["DATE"] = (datetime.date.today() + datetime.timedelta(days=offset)).strftime("%Y-%m-%d")
+
+def crawlData(url):
+  try:
+    r = web.get(url)
+    # Parse the JSON returned by pinboard and extract the posts
+    result = r.json()
+    return result
+  except:
+    return []
+
+def checkNotAvail(data, wf, image):
+  if not data:
+    return True
+  return False
+
+def getDataOpenMensa(mensaId = 0):
+  url = "http://openmensa.org/api/v2/canteens/"+str(mensaId)+"/days/" + DATE + "/meals"
+  return crawlData(url)
+
+def setMensaGriebnitzsee(wf):
+  data = getDataOpenMensa(62)
+  if checkNotAvail(data, wf, "mensa-logo.png"): return
+  for item in getDataOpenMensa(62):
+    wf.add_item(title=item['name'], subtitle=item['category'], arg="http://google.de", valid=True, icon="mensa-logo.png")
+
+def setTastys(wf):
+  data = getDataOpenMensa(104)
+  if checkNotAvail(data, wf, "tastys.png"): return
+  for item in data:
+	if (not globals()["BURGERMODE"] or "BURGER" in item['name']):
+	    wf.add_item(title=item['name'], subtitle=item['category'], icon="tastys.png")
+
+def setUlf(wf):
+  data = getDataOpenMensa(112)
+  if checkNotAvail(data, wf, "ulf.png"): return
+  for item in data:
+    wf.add_item(title=item['name'], subtitle=item['category'], icon="ulf.png")
+  
+def main(wf):
+  if not globals()["BURGERMODE"]:
+	setMensaGriebnitzsee(wf)
+	setUlf(wf)
+  setTastys(wf)
+  wf.send_feedback()
+
+if __name__ == "__main__":
+  parseInputParam()
+  wf = Workflow()
+  sys.exit(wf.run(main))
+  </string>
+				<key>title</key>
+				<string>food</string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>2ED91B1A-8E42-4A0E-BEB8-8A6CF2037A27</string>
+			<key>version</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>2ED91B1A-8E42-4A0E-BEB8-8A6CF2037A27</key>
+		<dict>
+			<key>ypos</key>
+			<real>360</real>
+		</dict>
+	</dict>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
