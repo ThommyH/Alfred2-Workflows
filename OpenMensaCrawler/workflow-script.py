@@ -41,7 +41,7 @@ def parseTitleSubtitle(item):
   title = ""
   subtitle = item['category'] + " "
   for word in text_split:
-    if len(title+word) < 50:
+    if len(title+word) < 90:
       title += word + " "
     else:
       subtitle += word + " "
