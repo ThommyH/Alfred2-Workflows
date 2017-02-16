@@ -40,11 +40,13 @@ def parseTitleSubtitle(item):
   text_split = text_title.split(" ")
   title = ""
   subtitle = item['category'] + " "
+  titleFull = False
   for word in text_split:
-    if len(title+word) < 90:
+    if len(title+word) < 90 and not titleFull:
       title += word + " "
     else:
       subtitle += word + " "
+      titleFull = True
   return title, subtitle
 
 def getDataOpenMensa(mensaId = 0):
